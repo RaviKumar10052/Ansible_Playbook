@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+     - name: table of 2
+       template:
+          src: test.j2
+          dest: table.txt
+          mode: 777 

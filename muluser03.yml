@@ -1,0 +1,22 @@
+---
+- hosts: all
+  sudo: yes
+  vars_files:
+          - data.txt
+  tasks:
+          - name: Create users
+            user:
+                    name: "{{item}}"
+            with_items: "{{ data }}"
+
+          - name: Allow sudo to user
+            lineinfile:
+                    dest: "/etc/sudoers"
+                    state: "present"
+                    regex: "^%{{item}}"
+                    line: "^%{{item}} ALL=(ALL) NOPASSWD: ALL"
+            with_items: "{{data}}"
+
+          - debug:
+                  msg: "the user created is {{item}}"
+            with_items: "{{data}}"

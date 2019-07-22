@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: yes
+  vars:
+          data: ["group1","group2"]
+  tasks:
+          - name: Add groups to system
+            group:
+                    name: "{{item}}"
+            with_items: "{{data}}"
+- hosts: all
+  become: yes
+  vars:
+          data1: ["u1","u2"]
+          data2: ["u3","u4"]
+  tasks:
+          - name: Add to group1
+            user:
+                    name: "{{item}}"
+                    group: group1
+            with_items: "{{data1}}"
+
+          - name: Add to group2
+            user:
+                    name: "{{item}}"
+                    group: group2
+            with_items: "{{data2}}"

@@ -1,0 +1,35 @@
+
+---
+- name: Installing Jenkins
+  hosts: jenkins
+  become: yes
+  tasks:
+    - name: Update index
+      apt:
+        update_cache: yes
+    - name: Install dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items: 
+        - openjdk-11-jre-headless
+        - default-jre
+        - git
+    - name: Import jenkins key
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        state: present
+    - name: Add Jenkins repository to system
+      shell: sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+    - name: Install Jenkins
+      apt:
+        name: "jenkins"
+        state: present
+        update_cache: yes
+
+    - name: Allow port 8080
+      shell: iptables -I INPUT -p tcp --dport 8080 -m state --state NEW,ESTABLISHED -j ACCEPT
+    - name: Start the server
+      service:
+        name: "jenkins"
+        state: started

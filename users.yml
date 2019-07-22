@@ -1,0 +1,14 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+          - name: Creating User
+            user:
+                    name: ravi07
+                
+          - name: Allow user sudo
+            lineinfile:
+                    dest: /etc/sudoers
+                    state: present
+                    regexp: "^%admin"
+                    line: "%ravi07 ALL=(ALL) NOPASSWD: ALL"

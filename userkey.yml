@@ -1,0 +1,11 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+          - name: Add the ssh key to user
+            user:
+                    name: test02
+                    append: yes
+                    generate_ssh_key: yes
+                    ssh_key_bits: 2048
+                    ssh_key_file: .ssh/id_rsa

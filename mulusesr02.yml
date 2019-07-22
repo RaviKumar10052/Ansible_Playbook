@@ -1,0 +1,18 @@
+---
+- hosts: all
+  sudo: yes
+  vars_files:
+          - mydata.yml
+  tasks:
+          - name: Create users
+            user:
+                    name: "{{item}}"
+            with_items: "{{ items }}"
+
+          - name: Allow sudo to user
+            lineinfile:
+                    dest: "/etc/sudoers"
+                    state: "present"
+                    regex: "^%{{item}}"
+                    line: "^%{{item}} ALL=(ALL) NOPASSWD: ALL"
+            with_items: "{{items}}"

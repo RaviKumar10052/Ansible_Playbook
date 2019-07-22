@@ -1,0 +1,8 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+          - name: copy files
+            copy:
+                    src: /home/ravi07/devops/users.yml
+                    dest: /home/ubuntu/userscopy.yml
